@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.factosback.factos.domain.chat.model.ChatRoom;
 import com.factosback.factos.domain.precedent.model.PrecedentSearch;
+import com.factosback.factos.domain.term.model.TermTranslation;
 import com.factosback.factos.global.common.model.BaseEntity;
 
 import jakarta.persistence.CascadeType;
@@ -50,5 +51,8 @@ public class Member extends BaseEntity {
 	private List<ChatRoom> chatRoomList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-	private List<PrecedentSearch> PrecedentSearchList = new ArrayList<>();
+	private List<PrecedentSearch> precedentSearchList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<TermTranslation> termTranslationList = new ArrayList<>();
 }
