@@ -9,7 +9,7 @@ import com.factosback.factos.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ChatService {
 
