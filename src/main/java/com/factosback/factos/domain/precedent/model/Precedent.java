@@ -1,14 +1,11 @@
-package com.factosback.factos.domain.legal.model;
+package com.factosback.factos.domain.precedent.model;
 
-import com.factosback.factos.domain.chat.model.ChatMessage;
+import com.factosback.factos.global.common.model.BaseEntity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,15 +17,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LegalCase {
+public class Precedent extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chat_message_id")
-	private ChatMessage chatMessage;
+	private String title;
 
-	private String content;
+	private Integer caseNumber;
+
+	private String caseDescription;
+
+	private String judgment_text;
 }
