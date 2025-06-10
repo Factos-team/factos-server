@@ -3,6 +3,7 @@ package com.factosback.factos.domain.chat.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.factosback.factos.domain.ai.model.AiReply;
 import com.factosback.factos.domain.legal.model.LegalCase;
 import com.factosback.factos.global.common.model.BaseEntity;
 
@@ -15,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,12 +34,16 @@ public class ChatMessage extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Enumerated(EnumType.STRING)
-	@Column(columnDefinition = "VARCHAR(15) DEFAULT 'MEMBER'")
-	private SenderStatus status;
+	// @Enumerated(EnumType.STRING)
+	// @Column(columnDefinition = "VARCHAR(15) DEFAULT 'MEMBER'")
+	// private SenderStatus status;
 
-	private String content;
+	private String case_summary;
 
-	@OneToMany(mappedBy = "chatMessage", cascade = CascadeType.ALL)
-	private List<LegalCase> legalCaseList = new ArrayList<>();
+	private String member_evidence;
+
+	private String opponent_claim;
+
+	@OneToOne(mappedBy = "chatMessage", cascade = CascadeType.ALL)
+	private AiReply aiReply;
 }
