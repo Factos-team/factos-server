@@ -1,14 +1,14 @@
-package com.factosback.factos.domain.chat.model;
+package com.factosback.factos.domain.ai.model;
 
-
-import com.factosback.factos.domain.ai.model.AiReply;
+import com.factosback.factos.domain.chat.model.ChatMessage;
 import com.factosback.factos.global.common.model.BaseEntity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,22 +21,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatMessage extends BaseEntity {
+public class AiReply extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// @Enumerated(EnumType.STRING)
-	// @Column(columnDefinition = "VARCHAR(15) DEFAULT 'MEMBER'")
-	// private SenderStatus status;
+	private String content;
 
-	private String case_summary;
+	private Integer caseNumber;
 
-	private String member_evidence;
+	private String contextSummary;
 
-	private String opponent_claim;
-
-	@OneToOne(mappedBy = "chatMessage", cascade = CascadeType.ALL)
-	private AiReply aiReply;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "chat_message_id")
+	private ChatMessage chatMessage;
 }
