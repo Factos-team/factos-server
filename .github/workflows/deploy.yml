@@ -1,0 +1,64 @@
+name: factos Deploy
+
+on:
+  push:
+    branches:
+      - release
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        # 서브모듈 도입 시 추가
+        # submodules: true
+
+      - name: Gradle cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Grant permission to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build JAR (skip tests)
+        run: ./gradlew clean bootJar -x test
+        # 프로파일 사용 시 추가
+        # -Pprofile=prod
+
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Set image tag
+        id: vars
+        run: echo "TAG=$(date +%Y%m%d)-${{ github.sha }}" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/factos:${{ env.TAG }} .
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/factos:${{ env.TAG }} ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
+        
+
+      - name: Push Docker image to DockerHub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/factos:${{ env.TAG }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
