@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.factosback.factos.global.error.code.CommonErrorCode;
 import com.factosback.factos.global.error.code.ErrorCode;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionAdvice {
+public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(RestApiException.class)
 	public ResponseEntity<Object> handleRestApiException(RestApiException e) {
@@ -37,15 +38,15 @@ public class ExceptionAdvice {
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		log.warn("handleHttpRequestMethodNotSupportedException 입니다.");
 		ErrorCode errorCode = CommonErrorCode.METHOD_NOT_ALLOWED;
 		return handleExceptionInternal(errorCode);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		log.warn("handleMethodArgumentNotValid 입니다.");
+	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		log.warn("handleMethodArgumentNotValidException 입니다.");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
