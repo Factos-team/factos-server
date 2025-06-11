@@ -1,10 +1,10 @@
-#name: Factos Deploy to Server
-#
-#on:
-#  push:
-#    branches:
-#      - release
-#
+name: Factos Deploy to Server
+
+on:
+  push:
+    branches:
+      - release
+
 #jobs:
 #  deploy-to-server:
 #    runs-on: ubuntu-latest
