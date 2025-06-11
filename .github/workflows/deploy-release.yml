@@ -1,6 +1,10 @@
 name: Factos Deploy to Server
 
 on:
+  pull_request:
+    branches:
+      - dev
+    types: [ opened, reopened, synchronize ]
   push:
     branches:
       - release
