@@ -28,4 +28,19 @@ public class WebClientConfig {
 			// 필요한 설정 추가
 			.build();
 	}
+
+	@Bean
+	public WebClient openApiWebClient(WebClient.Builder builder) {
+		/**
+		 * Request parameter
+		 * 필수 값 OC, target, type, query
+		 * 요청 URL https://www.law.go.kr/DRF/lawService.do?target=lstrmRlt
+		 * ex) https://www.law.go.kr/DRF/lawService.do?OC=test&target=lstrmRlt&type=XML&query=청원
+		 */
+		return builder
+			.baseUrl("https://www.law.go.kr/DRF")
+			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			//.defaultUriVariables(Map.of("oc", "내 OC값"))
+			.build();
+	}
 }
