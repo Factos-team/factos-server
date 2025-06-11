@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -37,14 +38,14 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		log.warn("handleHttpRequestMethodNotSupportedException 입니다.");
 		ErrorCode errorCode = CommonErrorCode.METHOD_NOT_ALLOWED;
 		return handleExceptionInternal(errorCode);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		log.warn("handleMethodArgumentNotValidException 입니다.");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
