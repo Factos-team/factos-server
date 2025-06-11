@@ -32,21 +32,21 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.warn("handlerIllegalArgument 입니다.");
+		log.warn("handlerIllegalArgument 발생");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		log.warn("handleHttpRequestMethodNotSupportedException 입니다.");
+		log.warn("handleHttpRequestMethodNotSupportedException 발생");
 		ErrorCode errorCode = CommonErrorCode.METHOD_NOT_ALLOWED;
 		return handleExceptionInternal(errorCode);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		log.warn("handleMethodArgumentNotValidException 입니다.");
+		log.warn("handleMethodArgumentNotValidException 발생");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
