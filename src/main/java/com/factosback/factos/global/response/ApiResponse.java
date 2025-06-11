@@ -28,15 +28,15 @@ public class ApiResponse<T> {
 		return new ApiResponse<T>(SUCCESS_STATUS, SUCCESS_MESSAGE, data);
 	}
 
-	public static <T> ApiResponse<T> createSuccessWithNoContent() {
-		return new ApiResponse<T>(SUCCESS_STATUS, SUCCESS_MESSAGE, null);
+	public static ApiResponse createSuccessWithNoContent() {
+		return new ApiResponse<>(SUCCESS_STATUS, SUCCESS_MESSAGE, null);
 	}
 
-	public static <T> ApiResponse<T> createFail(ErrorCode errorCode) {
-		return new ApiResponse<T>(FAIL_STATUS, errorCode.getMessage(), null);
+	public static ApiResponse<?> createFail(ErrorCode errorCode) {
+		return new ApiResponse<>(FAIL_STATUS, errorCode.getMessage(), null);
 	}
 
-	public static <T> ApiResponse<T> createFail(String message) {
-		return new ApiResponse<T>(FAIL_STATUS, message, null);
+	public static ApiResponse<?> createFail(String message) {
+		return new ApiResponse<>(FAIL_STATUS, message, null);
 	}
 }
