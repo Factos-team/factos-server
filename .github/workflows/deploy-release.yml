@@ -17,17 +17,14 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
-
-#           기존 컨테이너 정지 및 삭제
+            
             docker stop factos || true
             docker rm factos || true
-
-            # 새 컨테이너 실행
+            
             docker run -d \
               --name factos \
               -p 80:8080 \
               -e SPRING_PROFILES_ACTIVE=prod \
               ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
-
-            # 72시간 이상된 오래된 이미지 정리
+            
             docker image prune -a --force --filter "until=72h"
