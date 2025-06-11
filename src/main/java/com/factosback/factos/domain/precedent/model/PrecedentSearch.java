@@ -1,5 +1,7 @@
 package com.factosback.factos.domain.precedent.model;
 
+import java.time.LocalDateTime;
+
 import com.factosback.factos.domain.member.model.Member;
 import com.factosback.factos.global.common.model.BaseEntity;
 
@@ -10,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,11 +29,12 @@ public class PrecedentSearch extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private Integer caseNumber;
+
+	private LocalDateTime searchedAt;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "precedent_id")
-	private Precedent precedent;
 }
