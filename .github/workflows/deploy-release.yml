@@ -1,30 +1,30 @@
-name: Factos Deploy to Server
-
-on:
-  push:
-    branches:
-      - release
-
-jobs:
-  deploy-to-server:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to the server via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
-            
-            docker stop factos || true
-            docker rm factos || true
-            
-            docker run -d \
-              --name factos \
-              -p 80:8080 \
-              -e SPRING_PROFILES_ACTIVE=prod \
-              ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
-            
-            docker image prune -a --force --filter "until=72h"
+#name: Factos Deploy to Server
+#
+#on:
+#  push:
+#    branches:
+#      - release
+#
+#jobs:
+#  deploy-to-server:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Deploy to the server via SSH
+#        uses: appleboy/ssh-action@v1
+#        with:
+#          host: ${{ secrets.SERVER_IP }}
+#          username: ${{ secrets.SERVER_USERNAME }}
+#          key: ${{ secrets.SERVER_SSH_KEY }}
+#          script: |
+#            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
+#
+#            docker stop factos || true
+#            docker rm factos || true
+#
+#            docker run -d \
+#              --name factos \
+#              -p 80:8080 \
+#              -e SPRING_PROFILES_ACTIVE=prod \
+#              ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
+#
+#            docker image prune -a --force --filter "until=72h"
