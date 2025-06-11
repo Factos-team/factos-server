@@ -27,13 +27,18 @@ public class TermTranslation extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String legal_term;
+	private String legalTerm;
 
-	private String general_term;
+	private String generalTerm;
 
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
+
+	public void updateTerms(String legalTerm, String generalTerm) {
+		this.legalTerm = legalTerm;
+		this.generalTerm = generalTerm;
+	}
 }
