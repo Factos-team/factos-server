@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.factosback.factos.global.error.code.CommonErrorCode;
 import com.factosback.factos.global.error.code.ErrorCode;
 import com.factosback.factos.global.error.exception.RestApiException;
+import com.factosback.factos.global.response.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,21 +33,21 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.warn("handlerIllegalArgument 입니다.");
+		log.warn("handlerIllegalArgument 발생");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		log.warn("handleHttpRequestMethodNotSupportedException 입니다.");
+		log.warn("handleHttpRequestMethodNotSupportedException 발생");
 		ErrorCode errorCode = CommonErrorCode.METHOD_NOT_ALLOWED;
 		return handleExceptionInternal(errorCode);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		log.warn("handleMethodArgumentNotValidException 입니다.");
+		log.warn("handleMethodArgumentNotValidException 발생");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
@@ -60,10 +61,10 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	private ResponseEntity<Object> handleExceptionInternal (final ErrorCode errorCode) {
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(errorCode);
+		return ResponseEntity.status(errorCode.getHttpStatus()).body(ApiResponse.createFail(errorCode));
 	}
 
 	private ResponseEntity<Object> handleExceptionInternal (final ErrorCode errorCode, final String message) {
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(message);
+		return ResponseEntity.status(errorCode.getHttpStatus()).body(ApiResponse.createFail(message));
 	}
 }
