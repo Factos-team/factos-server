@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.factosback.factos.global.error.code.CommonErrorCode;
 import com.factosback.factos.global.error.code.ErrorCode;
 import com.factosback.factos.global.error.exception.RestApiException;
+import com.factosback.factos.global.response.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,10 +61,10 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	private ResponseEntity<Object> handleExceptionInternal (final ErrorCode errorCode) {
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(errorCode);
+		return ResponseEntity.status(errorCode.getHttpStatus()).body(ApiResponse.createFail(errorCode));
 	}
 
 	private ResponseEntity<Object> handleExceptionInternal (final ErrorCode errorCode, final String message) {
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(message);
+		return ResponseEntity.status(errorCode.getHttpStatus()).body(ApiResponse.createFail(message));
 	}
 }
