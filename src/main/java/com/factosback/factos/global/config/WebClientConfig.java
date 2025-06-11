@@ -1,5 +1,8 @@
 package com.factosback.factos.global.config;
 
+import java.util.Map;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,13 +14,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebClientConfig {
 
+	/**
+	 * 참고 webClient 기본 base code
+	 */
+	@Bean
 	public WebClient webClient(WebClient.Builder builder) {
 		return builder
 			.baseUrl("호출할 API 서비스 도메인 URL")
-			//.defaultHeaders(httpHeaders -> {
-				//httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-				//httpHeaders.add("apiKey", "API Key 값 입력");
-			//})
+			.defaultHeaders(httpHeaders -> {
+				httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+				httpHeaders.add("apiKey", "API Key 값 입력");
+			})
 			// 필요한 설정 추가
 			.build();
 	}
