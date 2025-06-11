@@ -29,5 +29,5 @@ public class Precedent extends BaseEntity {
 
 	private String caseDescription;
 
-	private String judgment_text;
+	private String judgment;
 }
