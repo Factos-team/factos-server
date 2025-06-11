@@ -31,6 +31,8 @@ public class TermTranslation extends BaseEntity {
 
 	private String general_term;
 
+	private String content;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
