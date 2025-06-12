@@ -20,7 +20,9 @@ public class OpenApiResponseParser {
 		List<String> results = new ArrayList<>();
 		try {
 			JsonNode root = objectMapper.readTree(responseBody);
-			JsonNode items = root.path("법령용어").path("연계용어");
+			JsonNode serviceNode = root.path("lstrmRltService");
+
+			JsonNode items = serviceNode.path("법령용어").path("연계용어");
 
 			if (items.isArray()) {
 				for (JsonNode item : items) {
