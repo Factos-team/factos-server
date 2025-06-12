@@ -1,6 +1,7 @@
 package com.factosback.factos.domain.term.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,12 @@ public class TermService {
 
 		String content = request.getContent();
 		String legalTerm = extractLegalTerm(content);
+
+		Optional<TermTranslation> existingTranslation = termTranslationRepository.findByLegalTerm(legalTerm);
+
+		if (existingTranslation.isPresent()) {
+			return TermConverter.convertToTranslateTermDto(existingTranslation.get());
+		}
 
 		TermTranslation translation = TermTranslation.builder()
 			.content(content)
