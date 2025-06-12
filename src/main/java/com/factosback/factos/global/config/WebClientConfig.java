@@ -1,7 +1,5 @@
 package com.factosback.factos.global.config;
 
-import java.util.Map;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +24,17 @@ public class WebClientConfig {
 				httpHeaders.add("apiKey", "API Key 값 입력");
 			})
 			// 필요한 설정 추가
+			.build();
+	}
+
+	@Bean
+	public WebClient openApiWebClient(WebClient.Builder builder, OpenApiProperties openApiProperties) {
+		return builder
+			.baseUrl(openApiProperties.baseUrl())
+			.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+			.codecs(configurer -> configurer
+				.defaultCodecs()
+				.maxInMemorySize(16 * 1024 * 1024))
 			.build();
 	}
 }
