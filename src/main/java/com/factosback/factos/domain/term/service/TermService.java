@@ -11,6 +11,7 @@ import com.factosback.factos.domain.term.model.GeneralTerm;
 import com.factosback.factos.domain.term.model.TermTranslation;
 import com.factosback.factos.domain.term.repository.TermTranslationRepository;
 import com.factosback.factos.domain.term.util.OpenApiClient;
+import com.factosback.factos.global.config.OpenApiProperties;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class TermService {
 
 	private final TermTranslationRepository termTranslationRepository;
 	private final OpenApiClient openApiClient;
+	private final OpenApiProperties openApiProperties;
 
 
 	@Transactional
@@ -37,9 +39,9 @@ public class TermService {
 
 		// API 요청 준비 및 응답
 		TranslateTermDto.OpenApiRequest apiRequest = TranslateTermDto.OpenApiRequest.builder()
-			.oc("@Value 등으로 변경 예정")
-			.target("lstrmRlt")
-			.type("JSON")
+			.oc(openApiProperties.oc())
+			.target(openApiProperties.target())
+			.type(openApiProperties.type())
 			.query(legalTerm)
 			.build();
 
