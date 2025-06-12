@@ -1,10 +1,13 @@
 package com.factosback.factos.domain.term.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.factosback.factos.domain.term.converter.TermConverter;
 import com.factosback.factos.domain.term.dto.TranslateTermDto;
+import com.factosback.factos.domain.term.model.GeneralTerm;
 import com.factosback.factos.domain.term.model.TermTranslation;
 import com.factosback.factos.domain.term.repository.TermTranslationRepository;
 import com.factosback.factos.domain.term.util.OpenApiClient;
@@ -20,34 +23,37 @@ public class TermService {
 	private final OpenApiClient openApiClient;
 
 
+	@Transactional
 	public TranslateTermDto.Response processTranslation(TranslateTermDto.UserInputRequest request, Object member) {
 
-		// 1. 유저 입력 문장을 저장
-		TermTranslation termTranslation = TermTranslation.builder()
-			.content(request.getContent())
-			.legalTerm(null)
-			.generalTerm(null)
-			.member(null) // 실제 유저 없으므로 null
+		String content = request.getContent();
+		String legalTerm = extractLegalTerm(content);
+
+		TermTranslation translation = TermTranslation.builder()
+			.content(content)
+			.legalTerm(legalTerm)
+			.member(null)
 			.build();
 
-		termTranslationRepository.save(termTranslation);
+		// API 요청 준비 및 응답
+		TranslateTermDto.OpenApiRequest apiRequest = TranslateTermDto.OpenApiRequest.builder()
+			.oc("test")
+			.target("lstrmRlt")
+			.type("JSON")
+			.query(legalTerm)
+			.build();
 
-		// 2. (임시) 법률 용어 추출 로직
-		String extractedLegalTerm = extractLegalTerm(request.getContent());
+		List<String> generalTerms = openApiClient.getGeneralTerms(apiRequest);
 
-		// 3. OPEN API 호출
-		TranslateTermDto.OpenApiRequest openApiRequest = new TranslateTermDto.OpenApiRequest();
-		openApiRequest.setOc("test-oc"); // 임시 OC
-		openApiRequest.setTarget("lstrmRlt");
-		openApiRequest.setType("JSON");
-		openApiRequest.setQuery(extractedLegalTerm);
+		// GeneralTerm 객체로 변환 후 저장
+		List<GeneralTerm> generalTermEntities = generalTerms.stream()
+			.map(gt -> GeneralTerm.builder().generalTerm(gt).build())
+			.toList();
 
-		String generalTerm = openApiClient.getGeneralTerm(openApiRequest);
+		translation.addGeneralTerms(generalTermEntities);
+		termTranslationRepository.save(translation);
 
-		// 4. 저장
-		termTranslation.updateTerms(extractedLegalTerm, generalTerm);
-
-		return TermConverter.convertToTranslateTermDto(termTranslation);
+		return TermConverter.convertToTranslateTermDto(translation);
 	}
 
 	private String extractLegalTerm(String content) {
