@@ -1,7 +1,5 @@
 package com.factosback.factos.global.config;
 
-import java.util.Map;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -30,15 +28,9 @@ public class WebClientConfig {
 	}
 
 	@Bean
-	public WebClient openApiWebClient(WebClient.Builder builder) {
-		/**
-		 * Request parameter
-		 * 필수 값 OC, target, type, query
-		 * 요청 URL https://www.law.go.kr/DRF/lawService.do?target=lstrmRlt
-		 * ex) https://www.law.go.kr/DRF/lawService.do?OC=test&target=lstrmRlt&type=XML&query=청원
-		 */
+	public WebClient openApiWebClient(WebClient.Builder builder, OpenApiProperties openApiProperties) {
 		return builder
-			.baseUrl("https://www.law.go.kr/DRF")
+			.baseUrl(openApiProperties.baseUrl())
 			.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
 			.codecs(configurer -> configurer
 				.defaultCodecs()
