@@ -1,6 +1,7 @@
 package com.factosback.factos.domain.term.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,12 @@ public class TermService {
 
 		String content = request.getContent();
 		String legalTerm = extractLegalTerm(content);
+
+		List<TermTranslation> existingTranslations = termTranslationRepository.findByLegalTerm(legalTerm);
+
+		if (!existingTranslations.isEmpty()) {
+			return TermConverter.convertToTranslateTermDto(existingTranslations);
+		}
 
 		TermTranslation translation = TermTranslation.builder()
 			.content(content)
@@ -63,6 +70,4 @@ public class TermService {
 	private String extractLegalTerm(String content) {
 		return "청원";
 	}
-
-
 }
