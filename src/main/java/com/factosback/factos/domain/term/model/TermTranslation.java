@@ -43,6 +43,7 @@ public class TermTranslation extends BaseEntity {
 	private Member member;
 
 	@OneToMany(mappedBy = "termTranslation", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Builder.Default
 	private List<GeneralTerm> generalTerms = new ArrayList<>();
 
 	public void addGeneralTerms(List<GeneralTerm> generalTerms) {
