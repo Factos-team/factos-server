@@ -37,7 +37,7 @@ public class TermService {
 
 		// API 요청 준비 및 응답
 		TranslateTermDto.OpenApiRequest apiRequest = TranslateTermDto.OpenApiRequest.builder()
-			.oc("test")
+			.oc("@Value 등으로 변경 예정")
 			.target("lstrmRlt")
 			.type("JSON")
 			.query(legalTerm)
