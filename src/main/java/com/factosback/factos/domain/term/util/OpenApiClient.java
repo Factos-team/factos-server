@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -47,7 +48,7 @@ public class OpenApiClient {
 				.queryParam("OC", request.getOc())
 				.queryParam("target", request.getTarget())
 				.queryParam("type", request.getType())
-				.queryParam("query", URLEncoder.encode(request.getQuery(), StandardCharsets.UTF_8))
+				.queryParam("query", request.getQuery())
 				.build())
 			.retrieve()
 			.onStatus(HttpStatusCode::isError, response -> {
@@ -58,11 +59,10 @@ public class OpenApiClient {
 					});
 			})
 			.bodyToMono(String.class)
-			// .map(response -> {
-			// 	log.info("API Raw Response: {}\n", response);
-			// 	return response;
-			// })
-			.doOnNext(response -> log.info("API Raw Response: {}", response))
+			.map(response -> {
+				log.info("API Raw Response: {}\n", response);
+				return response;
+			})
 			.map(openApiResponseParser::extractGeneralTerms)
 			.block();
 	}
