@@ -56,8 +56,10 @@ public class TermService {
 		return TermConverter.convertToTranslateTermDto(translation);
 	}
 
+	// 임시 extractLegalTerm 구현
+	// TODO: 실제 추출 로직 구현
 	private String extractLegalTerm(String content) {
-		return "청원"; // TODO: 실제 추출 로직 구현
+		return "청원";
 	}
 
 
