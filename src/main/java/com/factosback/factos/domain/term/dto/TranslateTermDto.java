@@ -1,5 +1,7 @@
 package com.factosback.factos.domain.term.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +35,7 @@ public class TranslateTermDto {
 	@Builder
 	public static class Response {
 		private String legalTerm;
-		private String generalTerm;
+		private List<String> generalTerms;
 		private String context;
 	}
 }
