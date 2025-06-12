@@ -1,9 +1,9 @@
 package com.factosback.factos.domain.term.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 public class TranslateTermDto {
 
@@ -13,9 +13,15 @@ public class TranslateTermDto {
 		private String content;
 	}
 
+	/**
+	 * 클라이언트가 보낸 요청 받는 DTO X
+	 * 외부 API 호출하기 위한 객체
+	 *
+	 */
 	@Getter
-	@Setter
+	@Builder
 	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class OpenApiRequest {
 		private String oc;
 		private String target;
