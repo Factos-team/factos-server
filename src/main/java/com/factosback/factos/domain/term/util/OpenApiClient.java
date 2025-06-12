@@ -25,6 +25,22 @@ public class OpenApiClient {
 	private final OpenApiResponseParser openApiResponseParser;
 
 	public List<String> getGeneralTerms(TranslateTermDto.OpenApiRequest request) {
+
+		// OC 값 대소문자 일치 확인
+		String oc = request.getOc();
+		log.info("OC 값(대소문자 포함): {}", oc);
+
+		// 쿼리 인코딩 확인
+		String encodedQuery = URLEncoder.encode(request.getQuery(), StandardCharsets.UTF_8);
+		log.info("원본 쿼리: {}, 인코딩된 쿼리: {}", request.getQuery(), encodedQuery);
+
+		// 최종 요청 URI 로그
+		String finalUri = String.format(
+			"https://www.law.go.kr/DRF/lawService.do?OC=%s&target=%s&type=%s&query=%s",
+			oc, request.getTarget(), request.getType(), encodedQuery
+		);
+		log.info("최종 요청 URI: {}", finalUri);
+
 		return openApiWebClient.get()
 			.uri(uriBuilder -> uriBuilder
 				.path("/lawService.do")
@@ -42,10 +58,11 @@ public class OpenApiClient {
 					});
 			})
 			.bodyToMono(String.class)
-			.map(response -> {
-				log.info("API Raw Response: {}\n", response);
-				return response;
-			})
+			// .map(response -> {
+			// 	log.info("API Raw Response: {}\n", response);
+			// 	return response;
+			// })
+			.doOnNext(response -> log.info("API Raw Response: {}", response))
 			.map(openApiResponseParser::extractGeneralTerms)
 			.block();
 	}
