@@ -44,10 +44,6 @@ public class OpenApiClient {
 					});
 			})
 			.bodyToMono(String.class)
-			.map(response -> {
-				log.info("API Raw Response: {}\n", response);
-				return response;
-			})
 			.map(openApiResponseParser::extractGeneralTerms)
 			.block();
 	}
