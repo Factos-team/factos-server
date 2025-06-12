@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -28,9 +29,6 @@ public class GeneralTerm {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "term_translation_id")
+	@Setter(AccessLevel.PACKAGE)
 	private TermTranslation termTranslation;
-
-	public void setTermTranslation(TermTranslation termTranslation) {
-		this.termTranslation = termTranslation;
-	}
 }
