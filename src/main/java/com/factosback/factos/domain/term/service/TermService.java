@@ -32,10 +32,10 @@ public class TermService {
 		String content = request.getContent();
 		String legalTerm = extractLegalTerm(content);
 
-		Optional<TermTranslation> existingTranslation = termTranslationRepository.findByLegalTerm(legalTerm);
+		List<TermTranslation> existingTranslations = termTranslationRepository.findByLegalTerm(legalTerm);
 
-		if (existingTranslation.isPresent()) {
-			return TermConverter.convertToTranslateTermDto(existingTranslation.get());
+		if (!existingTranslations.isEmpty()) {
+			return TermConverter.convertToTranslateTermDto(existingTranslations);
 		}
 
 		TermTranslation translation = TermTranslation.builder()
@@ -70,6 +70,4 @@ public class TermService {
 	private String extractLegalTerm(String content) {
 		return "청원";
 	}
-
-
 }
