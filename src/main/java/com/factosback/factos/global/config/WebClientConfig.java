@@ -39,8 +39,10 @@ public class WebClientConfig {
 		 */
 		return builder
 			.baseUrl("https://www.law.go.kr/DRF")
-			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			//.defaultUriVariables(Map.of("oc", "내 OC값"))
+			.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+			.codecs(configurer -> configurer
+				.defaultCodecs()
+				.maxInMemorySize(16 * 1024 * 1024))
 			.build();
 	}
 }
