@@ -34,7 +34,7 @@ public class TermTranslation extends BaseEntity {
 
 	private String legalTerm;
 
-	private String generalTerm;
+	// private String generalTerm;
 
 	private String content;
 
