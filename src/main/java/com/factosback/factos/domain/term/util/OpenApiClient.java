@@ -1,5 +1,7 @@
 package com.factosback.factos.domain.term.util;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -14,28 +16,18 @@ public class OpenApiClient {
 	private final WebClient openApiWebClient;
 	private final OpenApiResponseParser openApiResponseParser;
 
-	public String getGeneralTerm(String oc, String target, String type, String query) {
+	public List<String> getGeneralTerms(TranslateTermDto.OpenApiRequest request) {
 		return openApiWebClient.get()
 			.uri(uriBuilder -> uriBuilder
 				.path("/lawService.do")
-				.queryParam("OC", oc)
-				.queryParam("target", target)
-				.queryParam("type", type)
-				.queryParam("query", query)
+				.queryParam("OC", request.getOc())
+				.queryParam("target", request.getTarget())
+				.queryParam("type", request.getType())
+				.queryParam("query", request.getQuery())
 				.build())
 			.retrieve()
 			.bodyToMono(String.class)
-			.map(openApiResponseParser::extractGeneralTerm) // TODO: 파싱 로직으로 교체
+			.map(openApiResponseParser::extractGeneralTerms)
 			.block();
 	}
-
-	public String getGeneralTerm(TranslateTermDto.OpenApiRequest request) {
-		return getGeneralTerm(
-			request.getOc(),
-			request.getTarget(),
-			request.getType(),
-			request.getQuery()
-		);
-	}
-
 }
