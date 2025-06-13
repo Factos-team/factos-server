@@ -36,4 +36,8 @@ public class AiReply extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_message_id")
 	private ChatMessage chatMessage;
+
+	public void setChatMessage(ChatMessage chatMessage) {
+		this.chatMessage = chatMessage;
+	}
 }
