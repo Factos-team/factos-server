@@ -37,4 +37,14 @@ public class WebClientConfig {
 				.maxInMemorySize(16 * 1024 * 1024))
 			.build();
 	}
+
+	@Bean
+	public WebClient aiWebClient(WebClient.Builder builder, AiProperties aiProperties) {
+		return builder
+			.baseUrl(aiProperties.baseUrl())
+			.defaultHeaders(httpHeaders -> {
+				httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+			})
+			.build();
+	}
 }
