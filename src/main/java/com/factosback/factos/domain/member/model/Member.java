@@ -44,7 +44,7 @@ public class Member extends BaseEntity {
 	private String profileImageUrl;
 
 	@Enumerated(EnumType.STRING)
-	@Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
+	@Column(columnDefinition = "VARCHAR(15)")
 	private MemberStatus status;
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
