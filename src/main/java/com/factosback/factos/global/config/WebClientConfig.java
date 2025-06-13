@@ -44,6 +44,7 @@ public class WebClientConfig {
 			.baseUrl(aiProperties.baseUrl())
 			.defaultHeaders(httpHeaders -> {
 				httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+				httpHeaders.add("Authorization", "Bearer " + aiProperties.apiKey());
 			})
 			.codecs(configurer -> configurer
 				.defaultCodecs()
