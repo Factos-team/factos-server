@@ -45,6 +45,9 @@ public class WebClientConfig {
 			.defaultHeaders(httpHeaders -> {
 				httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 			})
+			.codecs(configurer -> configurer
+				.defaultCodecs()
+				.maxInMemorySize(16 * 1024 * 1024))
 			.build();
 	}
 }
