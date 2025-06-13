@@ -27,13 +27,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	// runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.postgresql:postgresql'
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// WebClient 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// pgvector 의존성 추가
+	// implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
 }
 
 tasks.named('test') {
