@@ -1,15 +1,16 @@
-name: Factos Deploy to Docker
+name: Factos CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - release
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
-  deploy:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -63,3 +64,23 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/factos:${{ env.TAG }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
+
+      - name: Deploy to the server via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
+
+            docker stop factos || true
+            docker rm factos || true
+
+            docker run -d \
+              --name factos \
+              -p 80:8080 \
+              -e SPRING_PROFILES_ACTIVE=prod \
+              ${{ secrets.DOCKERHUB_USERNAME }}/factos:latest
+
+            docker image prune -a --force --filter "until=72h"
