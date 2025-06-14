@@ -38,9 +38,6 @@ public class LegalCase {
 	private String issues;
 
 	@Column(columnDefinition = "TEXT")
-	private String rulingSummary;
-
-	@Column(columnDefinition = "TEXT")
 	private String referenceLaws;
 
 	@Column(columnDefinition = "TEXT")
