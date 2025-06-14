@@ -8,10 +8,13 @@ import com.factosback.factos.domain.ai.model.AiReply;
 import com.factosback.factos.domain.ai.util.AiClient;
 import com.factosback.factos.domain.chat.converter.ChatConverter;
 import com.factosback.factos.domain.chat.dto.ChatMessageDto;
+import com.factosback.factos.domain.chat.error.ChatErrorCode;
 import com.factosback.factos.domain.chat.model.ChatMessage;
+import com.factosback.factos.domain.chat.model.ChatRoom;
 import com.factosback.factos.domain.chat.repository.ChatMessageRepository;
 import com.factosback.factos.domain.chat.repository.ChatRoomRepository;
 import com.factosback.factos.domain.member.model.Member;
+import com.factosback.factos.global.error.exception.RestApiException;
 import com.factosback.factos.global.response.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -27,22 +30,22 @@ public class ChatService {
 
 	@Transactional
 	public ApiResponse<ChatMessageDto.AiResponse> processChatMessage(
-		ChatMessageDto.UserInputRequest request,
-		Member member
+		ChatMessageDto.UserInputRequest request
 	) {
-		// 1. 채팅 메시지 저장
-		ChatMessage chatMessage = chatMessageRepository.save(
-			ChatConverter.convertToChatMessage(request, member)
-		);
 
-		// 2. AI 분석 요청
-		ChatMessageDto.AiResponse aiResponse = aiClient.getAiAnalysis(
+		// 1. AI 분석 요청
+		ChatMessageDto.AiResponse aiResponse = aiClient.getAiReply(
 			AiConverter.convertToAiRequestDto(request)
 		);
 
-		// 3. AiReply 생성 및 연관관계 설정
+		// 2. 채팅방 가져오기 (현재 테스트 1L)
+		ChatRoom chatRoom = chatRoomRepository.findById(request.getChatRoomId())
+			.orElseThrow(() -> new RestApiException(ChatErrorCode.CHATROOM_NOT_FOUND));
+
+		// 3. ChatMessage, AiReply 저장
+		ChatMessage chatMessage = ChatConverter.convertToChatMessage(request, chatRoom);
 		AiReply aiReply = AiConverter.convertToAiReply(aiResponse);
-		chatMessage.addAiReply(aiReply); // 양방향 연관관계 연결
+		chatMessage.addAiReply(aiReply);
 
 		chatMessageRepository.save(chatMessage);
 
