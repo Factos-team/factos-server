@@ -55,6 +55,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+		log.warn("handleNoHandlerFoundException 발생");
 		ErrorCode errorCode = CommonErrorCode.ENDPOINT_NOT_FOUND;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
