@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY build/libs/*.jar app.jar
 
-ARG PROFILE=dev
+ARG PROFILE=prod
+
 ENV SPRING_PROFILES_ACTIVE=${PROFILE}
 
 EXPOSE 8080
