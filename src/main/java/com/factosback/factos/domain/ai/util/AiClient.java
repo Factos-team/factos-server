@@ -10,8 +10,10 @@ import com.factosback.factos.global.error.code.CommonErrorCode;
 import com.factosback.factos.global.error.exception.RestApiException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AiClient {
@@ -25,9 +27,10 @@ public class AiClient {
 			.retrieve()
 			.onStatus(HttpStatusCode::isError, response ->
 				response.bodyToMono(String.class)
-					.flatMap(body -> Mono.error(
-						new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR)
-					))
+					.flatMap(body -> {
+						log.error("AI 응답 오류: {}", body);
+						return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
+					})
 			)
 			.bodyToMono(ChatMessageDto.AiResponse.class)
 			.block();
