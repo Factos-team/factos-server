@@ -23,7 +23,7 @@ public class AiClient {
 	public ChatMessageDto.AiResponse getAiReply(AiRequestDto request) {
 		// AI 파트 기능 구현 전까지 Mock 데이터 테스트
 		return ChatMessageDto.AiResponse.builder()
-			.content("이 사건은 계약서의 해석이 핵심입니다.")
+			.content("AI 분석 결과: 계약 위반 가능성이 높습니다. 이 사건은 계약서의 해석이 핵심입니다. ")
 			.caseNumber(12345)
 			.contextSummary("계약 위반 여부와 해석을 중심으로 판단해야 합니다.")
 			.build();
