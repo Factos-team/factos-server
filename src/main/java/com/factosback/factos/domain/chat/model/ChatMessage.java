@@ -37,6 +37,11 @@ public class ChatMessage extends BaseEntity {
 
 	private String opponent_claim;
 
-	@OneToOne(mappedBy = "chatMessage", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "chatMessage", cascade = CascadeType.ALL, orphanRemoval = true)
 	private AiReply aiReply;
+
+	public void addAiReply(AiReply aiReply) {
+		this.aiReply = aiReply;
+		aiReply.setChatMessage(this); // 양방향 연관관계 설정
+	}
 }
