@@ -21,18 +21,28 @@ public class AiClient {
 	private final WebClient aiWebClient;
 
 	public ChatMessageDto.AiResponse getAiReply(AiRequestDto request) {
-		return aiWebClient.post()
-			.uri("임시uri예시")
-			.bodyValue(request)
-			.retrieve()
-			.onStatus(HttpStatusCode::isError, response ->
-				response.bodyToMono(String.class)
-					.flatMap(body -> {
-						log.error("AI 응답 오류: {}", body);
-						return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
-					})
-			)
-			.bodyToMono(ChatMessageDto.AiResponse.class)
-			.block();
+		// AI 파트 기능 구현 전까지 Mock 데이터 테스트
+		return ChatMessageDto.AiResponse.builder()
+			.content("이 사건은 계약서의 해석이 핵심입니다.")
+			.caseNumber(12345)
+			.contextSummary("계약 위반 여부와 해석을 중심으로 판단해야 합니다.")
+			.build();
+
+		/**
+		 * 기존 코드
+		 */
+		// return aiWebClient.post()
+		// 	.uri("임시uri예시")
+		// 	.bodyValue(request)
+		// 	.retrieve()
+		// 	.onStatus(HttpStatusCode::isError, response ->
+		// 		response.bodyToMono(String.class)
+		// 			.flatMap(body -> {
+		// 				log.error("AI 응답 오류: {}", body);
+		// 				return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
+		// 			})
+		// 	)
+		// 	.bodyToMono(ChatMessageDto.AiResponse.class)
+		// 	.block();
 	}
 }
