@@ -18,9 +18,9 @@ public class AiClient {
 
 	private final WebClient aiWebClient;
 
-	public ChatMessageDto.AiResponse getAiAnalysis(AiRequestDto request) {
+	public ChatMessageDto.AiResponse getAiReply(AiRequestDto request) {
 		return aiWebClient.post()
-			.uri("/analyze")
+			.uri("임시uri예시")
 			.bodyValue(request)
 			.retrieve()
 			.onStatus(HttpStatusCode::isError, response ->
