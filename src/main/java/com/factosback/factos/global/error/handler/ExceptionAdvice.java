@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.factosback.factos.global.error.code.CommonErrorCode;
@@ -35,6 +36,13 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
 		log.warn("handlerIllegalArgument 발생");
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
+		return handleExceptionInternal(errorCode, e.getMessage());
+	}
+
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException e) {
+		log.warn("handleNoHandlerFound 발생");
+		ErrorCode errorCode = CommonErrorCode.RESOURCE_NOT_FOUND;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
 
