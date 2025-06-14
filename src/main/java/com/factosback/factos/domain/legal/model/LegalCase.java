@@ -44,9 +44,6 @@ public class LegalCase {
 	private String referenceLaws;
 
 	@Column(columnDefinition = "TEXT")
-	private String referencedCases;
-
-	@Column(columnDefinition = "TEXT")
 	private String context;
 
 	@Column(columnDefinition = "TEXT")
