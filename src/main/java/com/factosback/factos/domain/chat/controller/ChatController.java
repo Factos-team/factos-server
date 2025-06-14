@@ -1,5 +1,6 @@
 package com.factosback.factos.domain.chat.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +19,10 @@ public class ChatController {
 
 	private final ChatService chatService;
 
-	@PostMapping("/send")
-	public ApiResponse<ChatMessageDto.AiResponse> processChatMessage(@RequestBody ChatMessageDto.UserInputRequest request) {
+	@PostMapping("/{chatRoomId}/send")
+	public ApiResponse<ChatMessageDto.AiResponse> processChatMessage(@PathVariable Long chatRoomId, @RequestBody ChatMessageDto.UserInputRequest request) {
 
-		ChatMessageDto.AiResponse response = chatService.processChatMessage(request).getData();
+		ChatMessageDto.AiResponse response = chatService.processChatMessage(chatRoomId, request).getData();
 
 		return ApiResponse.createSuccess(response);
 	}
