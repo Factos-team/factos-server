@@ -30,7 +30,7 @@ public class ChatService {
 
 	@Transactional
 	public ApiResponse<ChatMessageDto.AiResponse> processChatMessage(
-		ChatMessageDto.UserInputRequest request
+		Long chatRoomId, ChatMessageDto.UserInputRequest request
 	) {
 
 		// 1. AI 분석 요청
@@ -39,7 +39,7 @@ public class ChatService {
 		);
 
 		// 2. 채팅방 가져오기 (현재 테스트 1L)
-		ChatRoom chatRoom = chatRoomRepository.findById(request.getChatRoomId())
+		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
 			.orElseThrow(() -> new RestApiException(ChatErrorCode.CHATROOM_NOT_FOUND));
 
 		// 3. ChatMessage, AiReply 저장
