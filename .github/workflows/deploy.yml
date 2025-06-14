@@ -39,6 +39,9 @@ jobs:
       - name: Grant permission to gradlew
         run: chmod +x ./gradlew
 
+      - name: Copy prod.yml from submodule to resources
+        run: cp config/application-prod.yml src/main/resources/application-prod.yml
+
       - name: Build JAR (skip tests)
         run: ./gradlew clean bootJar -x test
         env:
