@@ -9,7 +9,6 @@ public class ChatMessageDto {
 	@Getter
 	@NoArgsConstructor
 	public static class UserInputRequest {
-		private Long chatRoomId;
 		private String caseSummary;
 		private String memberEvidence;
 		private String opponentClaim;
