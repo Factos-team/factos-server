@@ -39,13 +39,6 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
 
-	@ExceptionHandler(NoHandlerFoundException.class)
-	public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException e) {
-		log.warn("handleNoHandlerFound 발생");
-		ErrorCode errorCode = CommonErrorCode.RESOURCE_NOT_FOUND;
-		return handleExceptionInternal(errorCode, e.getMessage());
-	}
-
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		log.warn("handleHttpRequestMethodNotSupportedException 발생");
@@ -59,6 +52,13 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 		ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
 		return handleExceptionInternal(errorCode, e.getMessage());
 	}
+
+	@Override
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+		ErrorCode errorCode = CommonErrorCode.ENDPOINT_NOT_FOUND;
+		return handleExceptionInternal(errorCode, e.getMessage());
+	}
+
 
 	private static String getDefaultMessage(MethodArgumentNotValidException e) {
 		return e.getBindingResult()
