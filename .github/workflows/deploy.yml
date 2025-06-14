@@ -39,6 +39,12 @@ jobs:
       - name: Grant permission to gradlew
         run: chmod +x ./gradlew
 
+      - name: Create resources directory
+        run: mkdir -p src/main/resources
+
+      - name: Copy prod yml from submodule to resources
+        run: cp config/application-prod.yml src/main/resources/application-prod.yml
+
       - name: Copy prod.yml from submodule to resources
         run: cp config/application-prod.yml src/main/resources/application-prod.yml
 
