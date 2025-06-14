@@ -35,6 +35,6 @@ public class ChatRoom extends BaseEntity {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@OneToMany(mappedBy = "chat_room", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
 	private List<ChatMessage> chatMessageList;
 }
