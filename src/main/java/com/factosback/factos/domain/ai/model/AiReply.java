@@ -1,8 +1,14 @@
 package com.factosback.factos.domain.ai.model;
 
+import java.util.List;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import com.factosback.factos.domain.chat.model.ChatMessage;
 import com.factosback.factos.global.common.model.BaseEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,8 +36,10 @@ public class AiReply extends BaseEntity {
 	// 클로드 응답
 	private String claudeResponse;
 
-	// 사건 번호 (유저 입력에 관련된 5개 정도의 사건번호 들어옴)
-	private String caseNumber;
+	// 사건 번호 JSONB 타입
+	@JdbcTypeCode(SqlTypes.JSON)
+	@Column(columnDefinition = "jsonb")
+	private List<String> caseNumber;
 
 	// 문맥 기억용 contextSummary
 	private String contextSummary;
