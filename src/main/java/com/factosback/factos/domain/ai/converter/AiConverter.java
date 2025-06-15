@@ -7,9 +7,10 @@ import com.factosback.factos.domain.chat.model.ChatMessage;
 
 public class AiConverter {
 
-	public static AiRequestDto convertToAiRequestDto(ChatMessageDto.UserInputRequest request) {
+	public static AiRequestDto convertToAiRequestDto(ChatMessageDto.UserInputRequest request, String contextSummary) {
 		return AiRequestDto.builder()
 			.userInput(request.getUserInput())
+			.contextSummary(contextSummary)
 			.build();
 	}
 
