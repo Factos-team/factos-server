@@ -1,5 +1,7 @@
 package com.factosback.factos.domain.chat.dto;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ public class ChatMessageDto {
 	@Builder
 	public static class AiResponse {
 		private String claudeResponse;
-		private String caseNumber;
+		private List<String> caseNumber;
 		private String contextSummary;
 	}
 }
