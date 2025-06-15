@@ -1,5 +1,6 @@
 package com.factosback.factos.domain.ai.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -22,9 +23,12 @@ public class AiClient {
 
 	private final WebClient aiWebClient;
 
+	@Value("${ai.simulation.url}")
+	private String aiSimulationUrl;
+
 	public ChatMessageDto.AiResponse getAiReply(AiRequestDto request) {
 		return aiWebClient.post()
-			.uri("임시uri예시")
+			.uri(aiSimulationUrl)
 			.bodyValue(request)
 			.retrieve()
 			.onStatus(HttpStatusCode::isError, response ->
