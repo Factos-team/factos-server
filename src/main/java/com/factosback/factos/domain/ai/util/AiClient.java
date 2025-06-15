@@ -1,5 +1,6 @@
 package com.factosback.factos.domain.ai.util;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Profile("!local")
 @Slf4j
 @Component
 @RequiredArgsConstructor
