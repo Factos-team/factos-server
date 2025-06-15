@@ -33,9 +33,11 @@ public class ChatService {
 		Long chatRoomId, ChatMessageDto.UserInputRequest request
 	) {
 
+		String prevContextSummary = getPreviousContext(chatRoomId);
+
 		// 1. AI 분석 요청
 		ChatMessageDto.AiResponse aiResponse = aiClient.getAiReply(
-			AiConverter.convertToAiRequestDto(request)
+			AiConverter.convertToAiRequestDto(request, prevContextSummary)
 		);
 
 		// 2. 채팅방 가져오기 (현재 테스트 1L)
