@@ -29,7 +29,7 @@ public class AiReply extends BaseEntity {
 
 	private String claudeResponse;
 
-	private Integer caseNumber;
+	private String caseNumber;
 
 	private String context;
 
