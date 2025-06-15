@@ -5,7 +5,10 @@ import com.factosback.factos.domain.ai.model.AiReply;
 import com.factosback.factos.global.common.model.BaseEntity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,15 +33,12 @@ public class ChatMessage extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// @Enumerated(EnumType.STRING)
-	// @Column(columnDefinition = "VARCHAR(15) DEFAULT 'MEMBER'")
-	// private SenderStatus status;
+	@Enumerated(EnumType.STRING)
+	@Builder.Default
+	@Column(length = 15, nullable = false)
+	private SenderStatus status = SenderStatus.MEMBER;
 
-	private String case_summary;
-
-	private String member_evidence;
-
-	private String opponent_claim;
+	private String userInput;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_room_id")
