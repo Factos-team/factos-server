@@ -18,7 +18,9 @@ import com.factosback.factos.global.error.exception.RestApiException;
 import com.factosback.factos.global.response.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,9 +35,11 @@ public class ChatService {
 		Long chatRoomId, ChatMessageDto.UserInputRequest request
 	) {
 
+		String prevContextSummary = getPreviousContext(chatRoomId);
+
 		// 1. AI 분석 요청
 		ChatMessageDto.AiResponse aiResponse = aiClient.getAiReply(
-			AiConverter.convertToAiRequestDto(request)
+			AiConverter.convertToAiRequestDto(request, prevContextSummary)
 		);
 
 		// 2. 채팅방 가져오기 (현재 테스트 1L)
@@ -50,5 +54,27 @@ public class ChatService {
 		chatMessageRepository.save(chatMessage);
 
 		return ApiResponse.createSuccess(aiResponse);
+	}
+
+	/**
+	 * 컨텍스트 조회
+	 */
+	@Transactional(readOnly = true)
+	String getPreviousContext(Long chatRoomId) {
+		return chatMessageRepository.findLatestByChatRoomId(chatRoomId)
+			.map(ChatMessage::getAiReply)
+			.map(AiReply::getContextSummary)
+			.orElse("");
+
+		// String context = chatMessageRepository.findLatestByChatRoomId(chatRoomId)
+		// 	.map(ChatMessage::getAiReply)
+		// 	.map(AiReply::getContextSummary)
+		// 	.orElse("");
+		//
+		// // 컨텍스트 조회 로그 추가
+		// log.info("이전 컨텍스트 조회 | 채팅방 ID: {} | 컨텍스트: {}", chatRoomId,
+		// 	context.isEmpty() ? "첫 대화" : context.substring(0, Math.min(20, context.length())) + "...");
+		//
+		// return context;
 	}
 }

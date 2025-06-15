@@ -9,16 +9,14 @@ public class ChatMessageDto {
 	@Getter
 	@NoArgsConstructor
 	public static class UserInputRequest {
-		private String caseSummary;
-		private String memberEvidence;
-		private String opponentClaim;
+		private String userInput;
 	}
 
 	@Getter
 	@Builder
 	public static class AiResponse {
-		private String content;
-		private Integer caseNumber;
+		private String claudeResponse;
+		private String caseNumber;
 		private String contextSummary;
 	}
 }

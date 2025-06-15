@@ -3,6 +3,7 @@ package com.factosback.factos.domain.chat.converter;
 import com.factosback.factos.domain.chat.dto.ChatMessageDto;
 import com.factosback.factos.domain.chat.model.ChatMessage;
 import com.factosback.factos.domain.chat.model.ChatRoom;
+import com.factosback.factos.domain.chat.model.SenderStatus;
 
 public class ChatConverter {
 
@@ -10,9 +11,8 @@ public class ChatConverter {
 
 		return ChatMessage.builder()
 			.chatRoom(chatRoom)
-			.case_summary(request.getCaseSummary())
-			.member_evidence(request.getMemberEvidence())
-			.opponent_claim(request.getOpponentClaim())
+			.status(SenderStatus.MEMBER)
+			.userInput(request.getUserInput())
 			.build();
 	}
 }
