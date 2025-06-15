@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class AiRequestDto {
-	private String case_summary;
-	private String member_evidence;
-	private String opponent_claim;
+	private String userInput;
+	private String contextSummary;
 }

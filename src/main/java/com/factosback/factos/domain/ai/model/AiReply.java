@@ -27,10 +27,13 @@ public class AiReply extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String content;
+	// 클로드 응답
+	private String claudeResponse;
 
-	private Integer caseNumber;
+	// 사건 번호 (유저 입력에 관련된 5개 정도의 사건번호 들어옴)
+	private String caseNumber;
 
+	// 문맥 기억용 contextSummary
 	private String contextSummary;
 
 	@OneToOne(fetch = FetchType.LAZY)
