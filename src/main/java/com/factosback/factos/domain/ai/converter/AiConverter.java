@@ -9,15 +9,13 @@ public class AiConverter {
 
 	public static AiRequestDto convertToAiRequestDto(ChatMessageDto.UserInputRequest request) {
 		return AiRequestDto.builder()
-			.case_summary(request.getCaseSummary())
-			.member_evidence(request.getMemberEvidence())
-			.opponent_claim(request.getOpponentClaim())
+			.userInput(request.getUserInput())
 			.build();
 	}
 
 	public static AiReply convertToAiReply(ChatMessageDto.AiResponse response) {
 		return AiReply.builder()
-			.content(response.getContent())
+			.claudeResponse(response.getClaudeResponse())
 			.caseNumber(response.getCaseNumber())
 			.contextSummary(response.getContextSummary())
 			.build();
