@@ -7,4 +7,5 @@ import lombok.Getter;
 @Builder
 public class AiRequestDto {
 	private String userInput;
+	private String contextSummary;
 }
