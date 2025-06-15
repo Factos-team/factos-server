@@ -27,11 +27,14 @@ public class AiReply extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	// 클로드 응답
 	private String claudeResponse;
 
+	// 사건 번호 (유저 입력에 관련된 5개 정도의 사건번호 들어옴)
 	private String caseNumber;
 
-	private String context;
+	// 문맥 기억용 contextSummary
+	private String contextSummary;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_message_id")
