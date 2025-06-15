@@ -27,11 +27,11 @@ public class AiReply extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String content;
+	private String claudeResponse;
 
 	private Integer caseNumber;
 
-	private String contextSummary;
+	private String context;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_message_id")
