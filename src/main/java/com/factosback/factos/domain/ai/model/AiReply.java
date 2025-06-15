@@ -34,6 +34,7 @@ public class AiReply extends BaseEntity {
 	private Long id;
 
 	// 클로드 응답
+	@Column(columnDefinition = "TEXT")
 	private String claudeResponse;
 
 	// 사건 번호 JSONB 타입
@@ -42,6 +43,7 @@ public class AiReply extends BaseEntity {
 	private List<String> caseNumber;
 
 	// 문맥 기억용 contextSummary
+	@Column(columnDefinition = "TEXT")
 	private String contextSummary;
 
 	@OneToOne(fetch = FetchType.LAZY)
