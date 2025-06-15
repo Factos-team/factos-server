@@ -10,9 +10,7 @@ public class ChatConverter {
 
 		return ChatMessage.builder()
 			.chatRoom(chatRoom)
-			.case_summary(request.getCaseSummary())
-			.member_evidence(request.getMemberEvidence())
-			.opponent_claim(request.getOpponentClaim())
+			.userInput(request.getUserInput())
 			.build();
 	}
 }
