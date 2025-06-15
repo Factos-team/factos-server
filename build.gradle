@@ -36,8 +36,6 @@ dependencies {
 	// WebClient 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	// postgresql 관련 JSONB 타입
-	implementation 'com.vladmihalcea:hibernate-types-52:2.16.2'
 }
 
 tasks.named('test') {
