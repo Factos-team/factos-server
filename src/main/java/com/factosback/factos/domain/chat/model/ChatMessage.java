@@ -34,11 +34,7 @@ public class ChatMessage extends BaseEntity {
 	// @Column(columnDefinition = "VARCHAR(15) DEFAULT 'MEMBER'")
 	// private SenderStatus status;
 
-	private String case_summary;
-
-	private String member_evidence;
-
-	private String opponent_claim;
+	private String userInput;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_room_id")
