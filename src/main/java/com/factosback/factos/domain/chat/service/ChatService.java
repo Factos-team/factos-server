@@ -60,20 +60,20 @@ public class ChatService {
 	 * 컨텍스트 조회
 	 */
 	private String getPreviousContext(Long chatRoomId) {
-		// return chatMessageRepository.findLatestByChatRoomId(chatRoomId)
-		// 	.map(ChatMessage::getAiReply)
-		// 	.map(AiReply::getContextSummary)
-		// 	.orElse("");
-
-		String context = chatMessageRepository.findLatestByChatRoomId(chatRoomId)
+		return chatMessageRepository.findLatestByChatRoomId(chatRoomId)
 			.map(ChatMessage::getAiReply)
 			.map(AiReply::getContextSummary)
 			.orElse("");
 
-		// 컨텍스트 조회 로그 추가
-		log.info("이전 컨텍스트 조회 | 채팅방 ID: {} | 컨텍스트: {}", chatRoomId,
-			context.isEmpty() ? "첫 대화" : context.substring(0, Math.min(20, context.length())) + "...");
-
-		return context;
+		// String context = chatMessageRepository.findLatestByChatRoomId(chatRoomId)
+		// 	.map(ChatMessage::getAiReply)
+		// 	.map(AiReply::getContextSummary)
+		// 	.orElse("");
+		//
+		// // 컨텍스트 조회 로그 추가
+		// log.info("이전 컨텍스트 조회 | 채팅방 ID: {} | 컨텍스트: {}", chatRoomId,
+		// 	context.isEmpty() ? "첫 대화" : context.substring(0, Math.min(20, context.length())) + "...");
+		//
+		// return context;
 	}
 }
