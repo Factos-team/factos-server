@@ -38,6 +38,7 @@ public class ChatMessage extends BaseEntity {
 	@Column(length = 15, nullable = false)
 	private SenderStatus status = SenderStatus.MEMBER;
 
+	@Column(columnDefinition = "TEXT")
 	private String userInput;
 
 	@ManyToOne(fetch = FetchType.LAZY)
