@@ -41,6 +41,7 @@ dependencies {
 	// WebClient 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+
 	// Lambda 의존성 추가
 	implementation 'org.springframework.cloud:spring-cloud-function-adapter-aws'
 	implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'
