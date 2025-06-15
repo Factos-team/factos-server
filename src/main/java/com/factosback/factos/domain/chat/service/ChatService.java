@@ -51,4 +51,14 @@ public class ChatService {
 
 		return ApiResponse.createSuccess(aiResponse);
 	}
+
+	/**
+	 * 컨텍스트 조회
+	 */
+	private String getPreviousContext(Long chatRoomId) {
+		return chatMessageRepository.findLatestByChatRoomId(chatRoomId)
+			.map(ChatMessage::getAiReply)
+			.map(AiReply::getContextSummary)
+			.orElse("");
+	}
 }
