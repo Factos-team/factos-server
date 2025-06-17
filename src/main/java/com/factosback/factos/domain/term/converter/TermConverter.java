@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.factosback.factos.domain.term.dto.GetTermDto;
-import com.factosback.factos.domain.term.dto.TranslateTermDto;
-import com.factosback.factos.domain.term.model.GeneralTerm;
 import com.factosback.factos.domain.term.model.Term;
-import com.factosback.factos.domain.term.model.TermTranslation;
 
 public class TermConverter {
 

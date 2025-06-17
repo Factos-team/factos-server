@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.factosback.factos.domain.term.dto.GetTermDto;
-import com.factosback.factos.domain.term.dto.TranslateTermDto;
 import com.factosback.factos.domain.term.service.TermService;
 import com.factosback.factos.global.response.ApiResponse;
 

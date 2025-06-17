@@ -11,14 +11,10 @@ import com.factosback.factos.domain.ai.util.AiClient;
 import com.factosback.factos.domain.precedent.dto.PrecedentReplyDto;
 import com.factosback.factos.domain.term.converter.TermConverter;
 import com.factosback.factos.domain.term.dto.GetTermDto;
-import com.factosback.factos.domain.term.dto.TranslateTermDto;
-import com.factosback.factos.domain.term.model.GeneralTerm;
 import com.factosback.factos.domain.term.model.Term;
 import com.factosback.factos.domain.term.model.TermReply;
-import com.factosback.factos.domain.term.model.TermTranslation;
 import com.factosback.factos.domain.term.repository.TermReplyRepository;
 import com.factosback.factos.domain.term.repository.TermRepository;
-import com.factosback.factos.domain.term.repository.TermTranslationRepository;
 import com.factosback.factos.global.util.OpenApiClient;
 import com.factosback.factos.global.config.OpenApiProperties;
 
