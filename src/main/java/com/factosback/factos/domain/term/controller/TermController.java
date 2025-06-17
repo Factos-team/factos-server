@@ -22,13 +22,4 @@ public class TermController {
 	public ApiResponse<GetTermDto.Response> translateTerm(@RequestBody GetTermDto.Request request) {
 		return ApiResponse.createSuccess(termService.processGetTerm(request));
 	}
-
-	// @PostMapping("/translate")
-	// public ApiResponse<TranslateTermDto.Response> translateTerm(@RequestBody TranslateTermDto.UserInputRequest request) {
-	//
-	// 	// 현재 로그인 미구현 상태이므로 Mock 처리
-	// 	TranslateTermDto.Response response = termService.processTranslation(request, null);
-	//
-	// 	return ApiResponse.createSuccess(response);
-	// }
 }

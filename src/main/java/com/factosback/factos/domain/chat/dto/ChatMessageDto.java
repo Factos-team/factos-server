@@ -20,5 +20,13 @@ public class ChatMessageDto {
 		private String claudeResponse;
 		private List<String> caseNumber;
 		private String contextSummary;
+		private List<CaseSummary> casesSummaryList;
+	}
+
+	@Getter
+	@Builder
+	public static class CaseSummary {
+		private String caseNumber;
+		private String summary;
 	}
 }
