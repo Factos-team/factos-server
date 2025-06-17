@@ -37,25 +37,6 @@ public class AiClient {
 	@Value("${ai.simulation.url}")
 	private String aiSimulationUrl;
 
-	// 기존 chat 관련 코드
-	// public ChatMessageDto.AiResponse getAiReply(AiRequestDto.ChatResponse request) {
-	// 	return aiWebClient.post()
-	// 		.uri(aiSimulationUrl)
-	// 		.bodyValue(request)
-	// 		.retrieve()
-	// 		.onStatus(HttpStatusCode::isError, response ->
-	// 			response.bodyToMono(String.class)
-	// 				.flatMap(body -> {
-	// 					log.error("AI API 오류 응답: {} | 요청 내용: {}", body, request.getUserInput());
-	// 					return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
-	// 				})
-	// 		)
-	// 		.bodyToMono(ChatMessageDto.AiResponse.class)
-	// 		.doOnSuccess(res -> log.info("AI 분석 성공 | 사건번호: {} | 문맥요약: {}", res.getCaseNumber(), res.getContextSummary()))
-	// 		.doOnError(e -> log.error("AI 통신 실패: {}", e.getMessage()))
-	// 		.block();
-	// }
-
 	// 채팅 응답 생성
 	public ChatMessageDto.AiResponse getChatResponse(AiRequestDto.ChatResponse request) {
 		return aiWebClient.post()
@@ -97,21 +78,40 @@ public class AiClient {
 
 	// 법률 용어 설명 생성 (PrecedentReplyDto.Response 반환)
 	public PrecedentReplyDto.Response getTermExplanation(AiRequestDto.TermExplanation request) {
-		return aiWebClient.post()
+		log.debug("AI 서버에 보낼 요청: {}", request);
+		PrecedentReplyDto.Response response = aiWebClient.post()
 			.uri(termEndpoint)
 			.bodyValue(request)
 			.retrieve()
-			.onStatus(HttpStatusCode::isError, response ->
-				response.bodyToMono(String.class)
-					.flatMap(body -> {
-						log.error("[Term] AI API 오류 | 용어: {} | 응답: {}",
-							request.getLegalTerm(), body);
-						return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
-					})
-			)
+			.onStatus(HttpStatusCode::isError, r -> {
+				log.error("AI API 오류: status={}, request={}", r.statusCode(), request);
+				return r.bodyToMono(String.class).flatMap(body -> {
+					log.error("AI API 오류 응답 body: {}", body);
+					return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
+				});
+			})
 			.bodyToMono(PrecedentReplyDto.Response.class)
-			.doOnSuccess(res -> log.info("[Term] 분석 성공 | 용어: {}", request.getLegalTerm()))
-			.doOnError(e -> log.error("[Term] 통신 실패: {}", e.getMessage()))
+			.doOnSuccess(res -> log.info("AI 응답 성공: {}", res))
+			.doOnError(e -> log.error("AI 통신 실패: {}", e.getMessage()))
 			.block();
+		log.debug("최종 AI 응답: {}", response);
+		return response;
+
+		// return aiWebClient.post()
+		// 	.uri(termEndpoint)
+		// 	.bodyValue(request)
+		// 	.retrieve()
+		// 	.onStatus(HttpStatusCode::isError, response ->
+		// 		response.bodyToMono(String.class)
+		// 			.flatMap(body -> {
+		// 				log.error("[Term] AI API 오류 | 용어: {} | 응답: {}",
+		// 					request.getLegalTerm(), body);
+		// 				return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
+		// 			})
+		// 	)
+		// 	.bodyToMono(PrecedentReplyDto.Response.class)
+		// 	.doOnSuccess(res -> log.info("[Term] 분석 성공 | 용어: {}", request.getLegalTerm()))
+		// 	.doOnError(e -> log.error("[Term] 통신 실패: {}", e.getMessage()))
+		// 	.block();
 	}
 }
