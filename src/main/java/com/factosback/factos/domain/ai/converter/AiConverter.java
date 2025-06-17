@@ -36,10 +36,10 @@ public class AiConverter {
 			.build();
 	}
 
-	public static AiRequestDto.TermExplanation convertToTermExplanationDto(String legalTerm, String context) {
+	public static AiRequestDto.TermExplanation convertToTermExplanationDto(String legalTerm, String claudeResponse) {
 		return AiRequestDto.TermExplanation.builder()
 			.legalTerm(legalTerm)
-			.context(context)
+			.claudeResponse(claudeResponse)
 			.build();
 	}
 }

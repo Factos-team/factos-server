@@ -26,6 +26,6 @@ public class AiRequestDto {
 	@Builder
 	public static class TermExplanation {
 		private String legalTerm;
-		private String context;
+		private String claudeResponse;
 	}
 }
