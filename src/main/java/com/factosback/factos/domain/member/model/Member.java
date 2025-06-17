@@ -37,6 +37,12 @@ public class Member extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable=false, length = 30)
+	private String email;
+
+	@Column(nullable=false)
+	private String password;
+
 	@Column(nullable = false, length = 20)
 	private String nickname;
 
@@ -55,4 +61,17 @@ public class Member extends BaseEntity {
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<TermTranslation> termTranslationList = new ArrayList<>();
+
+	public Member(
+			String email,
+			String password,
+			String nickname,
+			String profileImageUrl
+	){
+		this.email = email;
+		this.password = password;
+		this.nickname = nickname;
+		this.profileImageUrl = profileImageUrl;
+		this.status = MemberStatus.ACTIVE;
+	}
 }
