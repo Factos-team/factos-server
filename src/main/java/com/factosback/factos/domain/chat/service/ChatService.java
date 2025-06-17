@@ -13,7 +13,6 @@ import com.factosback.factos.domain.chat.model.ChatMessage;
 import com.factosback.factos.domain.chat.model.ChatRoom;
 import com.factosback.factos.domain.chat.repository.ChatMessageRepository;
 import com.factosback.factos.domain.chat.repository.ChatRoomRepository;
-import com.factosback.factos.domain.member.model.Member;
 import com.factosback.factos.global.error.exception.RestApiException;
 import com.factosback.factos.global.response.ApiResponse;
 
@@ -38,11 +37,6 @@ public class ChatService {
 		String prevContextSummary = getPreviousContext(chatRoomId);
 
 		// 1. AI 분석 요청
-
-		// 기존 코드
-		// ChatMessageDto.AiResponse aiResponse = aiClient.getAiReply(
-		// 	AiConverter.convertToAiRequestDto(request, prevContextSummary)
-		// );
 		ChatMessageDto.AiResponse aiResponse = aiClient.getChatResponse(
 			AiConverter.convertToChatRequestDto(request, prevContextSummary)
 		);
@@ -70,16 +64,5 @@ public class ChatService {
 			.map(ChatMessage::getAiReply)
 			.map(AiReply::getContextSummary)
 			.orElse("");
-
-		// String context = chatMessageRepository.findLatestByChatRoomId(chatRoomId)
-		// 	.map(ChatMessage::getAiReply)
-		// 	.map(AiReply::getContextSummary)
-		// 	.orElse("");
-		//
-		// // 컨텍스트 조회 로그 추가
-		// log.info("이전 컨텍스트 조회 | 채팅방 ID: {} | 컨텍스트: {}", chatRoomId,
-		// 	context.isEmpty() ? "첫 대화" : context.substring(0, Math.min(20, context.length())) + "...");
-		//
-		// return context;
 	}
 }

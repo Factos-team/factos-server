@@ -1,7 +1,6 @@
 package com.factosback.factos.domain.ai.util;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,7 +8,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.factosback.factos.domain.ai.dto.AiRequestDto;
 import com.factosback.factos.domain.chat.dto.ChatMessageDto;
 import com.factosback.factos.domain.precedent.dto.PrecedentReplyDto;
-import com.factosback.factos.domain.precedent.model.PrecedentReply;
 import com.factosback.factos.global.error.code.CommonErrorCode;
 import com.factosback.factos.global.error.exception.RestApiException;
 
@@ -34,10 +32,9 @@ public class AiClient {
 	@Value("${ai.endpoint.term}")
 	private String termEndpoint;
 
-	@Value("${ai.simulation.url}")
-	private String aiSimulationUrl;
-
-	// 채팅 응답 생성
+	/**
+	 * 채팅 응답 생성
+	 */
 	public ChatMessageDto.AiResponse getChatResponse(AiRequestDto.ChatResponse request) {
 		return aiWebClient.post()
 			.uri(chatEndpoint)
@@ -56,7 +53,9 @@ public class AiClient {
 			.block();
 	}
 
-	// 판례 요약 생성 (PrecedentReplyDto.Response 반환)
+	/**
+	 * 판례 요약 생성
+	 */
 	public PrecedentReplyDto.Response getPrecedentSummary(AiRequestDto.PrecedentSummary request) {
 		return aiWebClient.post()
 			.uri(precedentEndpoint)
@@ -76,7 +75,9 @@ public class AiClient {
 			.block();
 	}
 
-	// 법률 용어 설명 생성 (PrecedentReplyDto.Response 반환)
+	/**
+	 * 법률 용어 설명 생성
+	 */
 	public PrecedentReplyDto.Response getTermExplanation(AiRequestDto.TermExplanation request) {
 		log.debug("AI 서버에 보낼 요청: {}", request);
 		PrecedentReplyDto.Response response = aiWebClient.post()
@@ -96,22 +97,5 @@ public class AiClient {
 			.block();
 		log.debug("최종 AI 응답: {}", response);
 		return response;
-
-		// return aiWebClient.post()
-		// 	.uri(termEndpoint)
-		// 	.bodyValue(request)
-		// 	.retrieve()
-		// 	.onStatus(HttpStatusCode::isError, response ->
-		// 		response.bodyToMono(String.class)
-		// 			.flatMap(body -> {
-		// 				log.error("[Term] AI API 오류 | 용어: {} | 응답: {}",
-		// 					request.getLegalTerm(), body);
-		// 				return Mono.error(new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR));
-		// 			})
-		// 	)
-		// 	.bodyToMono(PrecedentReplyDto.Response.class)
-		// 	.doOnSuccess(res -> log.info("[Term] 분석 성공 | 용어: {}", request.getLegalTerm()))
-		// 	.doOnError(e -> log.error("[Term] 통신 실패: {}", e.getMessage()))
-		// 	.block();
 	}
 }

@@ -36,7 +36,6 @@ public class PrecedentService {
 	private final AiClient aiClient;
 	private final OpenApiProperties openApiProperties;
 
-	// POST용 복합 작업
 	@Transactional
 	public PrecedentReplyDto.Response getOrCreatePrecedentReply(PrecedentReplyDto.Request request) {
 		Optional<Precedent> precedentOpt = precedentRepository.findByCaseNumber(request.getCaseNumber());
