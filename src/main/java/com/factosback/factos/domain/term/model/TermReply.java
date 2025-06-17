@@ -33,4 +33,12 @@ public class TermReply extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "term_id")
 	private Term term;
+
+	// 연관관계 편의 메서드
+	public void addTerm(Term term) {
+		this.term = term;
+		if (term.getTermReply() != this) {
+			term.addTermReply(this);
+		}
+	}
 }

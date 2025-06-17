@@ -32,4 +32,12 @@ public class Term extends BaseEntity {
 
 	@OneToOne(mappedBy = "term", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private TermReply termReply;
+
+	// 연관관계 편의 메서드
+	public void addTermReply(TermReply termReply) {
+		this.termReply = termReply;
+		if (termReply.getTerm() != this) {
+			termReply.addTerm(this);
+		}
+	}
 }
