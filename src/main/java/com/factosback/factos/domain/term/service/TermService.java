@@ -1,7 +1,6 @@
 package com.factosback.factos.domain.term.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,7 @@ import com.factosback.factos.domain.term.dto.TranslateTermDto;
 import com.factosback.factos.domain.term.model.GeneralTerm;
 import com.factosback.factos.domain.term.model.TermTranslation;
 import com.factosback.factos.domain.term.repository.TermTranslationRepository;
-import com.factosback.factos.domain.term.util.OpenApiClient;
+import com.factosback.factos.global.util.OpenApiClient;
 import com.factosback.factos.global.config.OpenApiProperties;
 
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,7 @@ public class TermService {
 		// API 요청 준비 및 응답
 		TranslateTermDto.OpenApiRequest apiRequest = TranslateTermDto.OpenApiRequest.builder()
 			.oc(openApiProperties.oc())
-			.target(openApiProperties.target())
+			.target("lstrmRlt")
 			.type(openApiProperties.type())
 			.query(legalTerm)
 			.build();

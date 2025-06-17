@@ -38,8 +38,13 @@ public class ChatService {
 		String prevContextSummary = getPreviousContext(chatRoomId);
 
 		// 1. AI 분석 요청
-		ChatMessageDto.AiResponse aiResponse = aiClient.getAiReply(
-			AiConverter.convertToAiRequestDto(request, prevContextSummary)
+
+		// 기존 코드
+		// ChatMessageDto.AiResponse aiResponse = aiClient.getAiReply(
+		// 	AiConverter.convertToAiRequestDto(request, prevContextSummary)
+		// );
+		ChatMessageDto.AiResponse aiResponse = aiClient.getChatResponse(
+			AiConverter.convertToChatRequestDto(request, prevContextSummary)
 		);
 
 		// 2. 채팅방 가져오기 (현재 테스트 1L)
@@ -48,7 +53,7 @@ public class ChatService {
 
 		// 3. ChatMessage, AiReply 저장
 		ChatMessage chatMessage = ChatConverter.convertToChatMessage(request, chatRoom);
-		AiReply aiReply = AiConverter.convertToAiReply(aiResponse);
+		AiReply aiReply = AiConverter.convertToChatResponseDto(aiResponse);
 		chatMessage.addAiReply(aiReply);
 
 		chatMessageRepository.save(chatMessage);

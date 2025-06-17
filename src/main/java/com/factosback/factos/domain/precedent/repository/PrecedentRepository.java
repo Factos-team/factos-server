@@ -15,5 +15,5 @@ public interface PrecedentRepository extends JpaRepository<Precedent, Long> {
 			.orElseThrow(() -> new RestApiException(PrecedentErrorCode.PRECEDENT_NOT_FOUND));
 	}
 
-	Optional<Precedent> findByCaseNumber(Integer caseName);
+	Optional<Precedent> findByCaseNumber(String caseNumber);
 }

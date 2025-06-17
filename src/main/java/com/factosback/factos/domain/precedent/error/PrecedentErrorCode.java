@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PrecedentErrorCode implements ErrorCode {
 
-	PRECEDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 PRECEDENT를 찾을 수 없습니다.");
+	PRECEDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 사건번호의 판례를 찾을 수 없습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;
