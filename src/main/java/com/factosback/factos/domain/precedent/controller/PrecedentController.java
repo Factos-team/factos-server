@@ -2,10 +2,13 @@ package com.factosback.factos.domain.precedent.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.factosback.factos.domain.precedent.dto.GetPrecedentDto;
+import com.factosback.factos.domain.precedent.dto.PrecedentReplyDto;
+import com.factosback.factos.domain.precedent.model.PrecedentReply;
 import com.factosback.factos.domain.precedent.service.PrecedentService;
 import com.factosback.factos.global.response.ApiResponse;
 
@@ -18,11 +21,20 @@ public class PrecedentController {
 
 	private final PrecedentService precedentService;
 
-	@GetMapping("/{caseNumber}")
-	public ApiResponse<GetPrecedentDto.Response> getPrecedents(@PathVariable Integer caseNumber) {
+	// @GetMapping("/{caseNumber}")
+	// public ApiResponse<GetPrecedentDto.Response> getPrecedents(@PathVariable Integer caseNumber) {
+	//
+	// 	GetPrecedentDto.Response response = precedentService.getPrecedent(caseNumber);
+	//
+	// 	return ApiResponse.createSuccess(response);
+	// }
 
-		GetPrecedentDto.Response response = precedentService.getPrecedent(caseNumber);
-
+	// 신규 POST 엔드포인트 (AI 응답 생성 포함)
+	@PostMapping("/search")
+	public ApiResponse<PrecedentReplyDto.Response> searchPrecedent(
+		@RequestBody PrecedentReplyDto.Request request
+	) {
+		PrecedentReplyDto.Response response = precedentService.getOrCreatePrecedentReply(request);
 		return ApiResponse.createSuccess(response);
 	}
 }

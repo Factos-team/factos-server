@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.factosback.factos.global.util.OpenApiResponseParser;
+
 class OpenApiResponseParserTest {
 
 	private final OpenApiResponseParser parser = new OpenApiResponseParser();
